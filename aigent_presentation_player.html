@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aigent.Farm - Hackathon Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0a301e 0%, #1a4d3a 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1400px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide-display {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: white;
+        }
+
+        .slide-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(10, 48, 30, 0.8);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .controls {
+            background: #f9f9f9;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        button {
+            background: #0a301e;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: #0d4029;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(10, 48, 30, 0.2);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button.play-pause {
+            background: #d8b468;
+            color: #0a301e;
+        }
+
+        button.play-pause:hover {
+            background: #e5c878;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .progress-bar {
+            flex: 1;
+            min-width: 200px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0a301e 0%, #d8b468 100%);
+            border-radius: 3px;
+            transition: width 0.1s linear;
+        }
+
+        .progress-fill:hover {
+            height: 8px;
+            margin-top: -1px;
+        }
+
+        .time-display {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #d8b468;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .keyboard-hint {
+            font-size: 11px;
+            color: #999;
+            text-align: center;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .fullscreen-btn {
+            background: #666;
+        }
+
+        .fullscreen-btn:hover {
+            background: #777;
+        }
+
+        /* Fullscreen styles */
+        .presentation-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            border-radius: 0;
+            z-index: 9999;
+        }
+
+        .presentation-container.fullscreen .controls {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+        }
+
+        .presentation-container.fullscreen .slide-counter {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .control-group {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .progress-bar {
+                min-width: 100%;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .keyboard-hint {
+                display: none;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            color: #999;
+            font-size: 14px;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #d8b468;
+            animation: dot-animation 1.5s infinite;
+        }
+
+        @keyframes dot-animation {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container" id="presentationContainer">
+        <div class="slide-display">
+            <div class="slide-counter">
+                <span id="currentSlide">1</span> / <span id="totalSlides">17</span>
+            </div>
+            <img id="slideImage" class="slide-image" src="" alt="Slide">
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <button id="prevBtn" onclick="previousSlide()">← Previous</button>
+                <button id="playPauseBtn" class="play-pause" onclick="togglePlayPause()">▶ Play</button>
+                <button id="nextBtn" onclick="nextSlide()">Next →</button>
+            </div>
+
+            <div class="progress-bar" id="progressBar" onclick="seekSlide(event)">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+
+            <div class="time-display">
+                <span id="timeDisplay">0:00 / 0:00</span>
+            </div>
+
+            <div class="control-group">
+                <div class="status-indicator">
+                    <div class="status-dot" id="statusDot"></div>
+                    <span id="statusText">Ready</span>
+                </div>
+                <button class="fullscreen-btn" onclick="toggleFullscreen()">⛶ Fullscreen</button>
+            </div>
+        </div>
+
+        <div class="keyboard-hint">
+            💡 Keyboard: <strong>Space</strong> to play/pause • <strong>←/→</strong> to navigate • <strong>F</strong> for fullscreen
+        </div>
+    </div>
+
+    <script>
+        // Slide data
+        const slides = [
+            { title: 'Title', image: 'slide_1_title_generated.jpg' },
+            { title: 'Crisis', image: 'slide_2_crisis_generated.jpg' },
+            { title: 'Failure', image: 'slide_3_failure_generated.jpg' },
+            { title: 'Definition', image: 'slide_4_definition_generated.jpg' },
+            { title: 'Reasoning', image: 'slide_5_reasoning_generated.jpg' },
+            { title: 'Architecture', image: 'slide_6_architecture_generated.jpg' },
+            { title: 'Memory', image: 'slide_7_memory_generated.jpg' },
+            { title: 'Unibase', image: 'slide_8_unibase_generated.jpg' },
+            { title: 'Lifecycle', image: 'slide_9_lifecycle_generated.jpg' },
+            { title: 'Demo', image: 'slide_10_demo_generated.jpg' },
+            { title: 'Router', image: 'slide_11_router_generated.jpg' },
+            { title: 'Impact', image: 'slide_12_impact_generated.jpg' },
+            { title: 'Safety', image: 'slide_13_safety_generated.jpg' },
+            { title: 'IHT', image: 'slide_14_iht_generated.jpg' },
+            { title: 'Built', image: 'slide_15_built_generated.jpg' },
+            { title: 'Roadmap', image: 'slide_16_roadmap_generated.jpg' },
+            { title: 'CTA', image: 'slide_17_cta_generated.jpg' }
+        ];
+
+        // State
+        let currentSlide = 0;
+        let isPlaying = false;
+        let autoPlayInterval = null;
+        const slideDuration = 5000; // 5 seconds per slide
+
+        // Initialize
+        function init() {
+            document.getElementById('totalSlides').textContent = slides.length;
+            loadSlide(0);
+            setupKeyboardShortcuts();
+        }
+
+        // Load slide
+        function loadSlide(index) {
+            if (index < 0) currentSlide = slides.length - 1;
+            if (index >= slides.length) currentSlide = 0;
+
+            const slide = slides[currentSlide];
+            const slideImage = document.getElementById('slideImage');
+            
+            // Use relative path - images should be in same directory
+            slideImage.src = slide.image;
+            slideImage.alt = slide.title;
+
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            updateProgress();
+            updateStatus('Slide ' + (currentSlide + 1) + ' loaded');
+        }
+
+        // Navigation
+        function nextSlide() {
+            currentSlide++;
+            if (currentSlide >= slides.length) {
+                currentSlide = 0;
+                if (isPlaying) {
+                    updateStatus('Presentation completed - restarting');
+                }
+            }
+            loadSlide(currentSlide);
+        }
+
+        function previousSlide() {
+            currentSlide--;
+            loadSlide(currentSlide);
+        }
+
+        // Play/Pause
+        function togglePlayPause() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('playPauseBtn');
+
+            if (isPlaying) {
+                btn.textContent = '⏸ Pause';
+                btn.style.background = '#d8b468';
+                updateStatus('Playing...');
+                autoPlayInterval = setInterval(() => {
+                    nextSlide();
+                }, slideDuration);
+            } else {
+                btn.textContent = '▶ Play';
+                btn.style.background = '#d8b468';
+                updateStatus('Paused');
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Progress bar
+        function updateProgress() {
+            const progress = ((currentSlide + 1) / slides.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            updateTimeDisplay();
+        }
+
+        function seekSlide(event) {
+            const bar = document.getElementById('progressBar');
+            const rect = bar.getBoundingClientRect();
+            const percent = (event.clientX - rect.left) / rect.width;
+            currentSlide = Math.floor(percent * slides.length);
+            loadSlide(currentSlide);
+        }
+
+        function updateTimeDisplay() {
+            const current = currentSlide + 1;
+            const total = slides.length;
+            const currentTime = Math.floor((current / total) * 100);
+            document.getElementById('timeDisplay').textContent = 
+                `${current}/${total} (${currentTime}%)`;
+        }
+
+        // Status
+        function updateStatus(message) {
+            document.getElementById('statusText').textContent = message;
+        }
+
+        // Fullscreen
+        function toggleFullscreen() {
+            const container = document.getElementById('presentationContainer');
+            container.classList.toggle('fullscreen');
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                container.requestFullscreen().catch(err => {
+                    console.log('Fullscreen request failed:', err);
+                });
+            }
+        }
+
+        // Keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlayPause();
+                } else if (e.code === 'ArrowRight') {
+                    nextSlide();
+                } else if (e.code === 'ArrowLeft') {
+                    previousSlide();
+                } else if (e.code === 'KeyF') {
+                    toggleFullscreen();
+                }
+            });
+        }
+
+        // Start
+        init();
+    </script>
+</body>
+</html>
