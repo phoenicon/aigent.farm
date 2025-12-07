@@ -1,0 +1,118 @@
+# 🌾 Aigent.Farm — On-Farm AI With Memory  
+**Save Fields. Not Chase Yields.**
+
+Aigent.Farm introduces the world’s first *on-farm AI agent with persistent memory*.  
+Each farm receives its own autonomous AI agent capable of observing, learning, valuing, and unlocking safe liquidity through the FarmNote token system — all built on Hedera and powered by UniBase agent memory.
+
+---
+
+## 🚜 1. Problem
+Farms face rising costs, tightening regulations, unstable markets, and a lack of real-time intelligence.  
+Value is trapped in land, with no safe mechanism for farmers to access liquidity without risking ownership.
+
+---
+
+## 🌱 2. Insight
+A farm is a living system — soil, water, weather, livestock, operations.  
+It produces thousands of data signals every day.  
+With a persistent memory layer, an AI agent can learn a farm as deeply as a farmer does over decades.
+
+---
+
+## 🤖 3. What Is Aigent.Farm?
+Aigent.Farm is an intelligent on-farm AI agent with:
+
+- **UniBase persistent memory layer**  
+- **FarmNote tokenisation** (ultra-safe 25% collateral rule)  
+- **Hedera HCS valuation loop**  
+- **Real-time analytics & insights**  
+- **Self-contained farm identity and knowledge base**  
+
+Each farm gets **one agent**, one identity, one evolving memory.
+
+---
+
+## 🔄 4. How It Works
+1. Farm data enters the system — soil, weather, yields, livestock, operations.  
+2. The agent processes and stores intelligence in **UniBase**.  
+3. A continuous valuation model updates based on regenerative performance.  
+4. All valuation checkpoints are logged to **Hedera HCS** for transparency.  
+5. **FarmNote tokens** can be issued using the ultra-safe **25% collateral rule**.  
+6. Farmers gain liquidity without risking their land.
+
+---
+
+## 🪙 5. FarmNote Token Lifecycle
+**Token Creation → Collateral Lock → HCS Valuation → Liquidity Release → Market Circulation → Redemption**  
+(See included diagram in `/assets/farmnote-lifecycle.png`)
+
+FarmNote enables a new category:  
+**Bitcoin-backed regenerative agriculture supported by real-world performance data.**
+
+---
+
+## 🧠 6. UniBase Memory Layer
+A farm is not a single snapshot — it is time.  
+UniBase provides:
+
+- Long-term storage of farm activities  
+- Structured retrieval for the agent  
+- Behavioural pattern detection  
+- Local + distributed AI memory  
+- Multi-farm comparative intelligence  
+
+This is the backbone of the Aigent.Farm intelligence model.
+
+---
+
+## 🏗️ 7. Architecture
+Included diagrams:  
+
+- `/assets/aigent-architecture.png`  
+- `/assets/unibase-flow.png`  
+- `/assets/valuation-loop.png`  
+- `/assets/25pc-collateral-meter.png`  
+
+A modular, future-proof architecture designed for real farms operating in real time.
+
+---
+
+## 🖥️ 8. Demo UI (Prototype)
+- Real-time farm valuation gauge  
+- Chat interface for agent interaction  
+- Farm card identity view  
+- Soil/regen insights feed  
+- Tokenisation readiness score  
+
+Screenshots included in `/assets/ui/`.
+
+---
+
+## 🔧 9. Tech Stack
+- **Hedera Token Service (HTS)** — FarmNote  
+- **Hedera Consensus Service (HCS)** — Valuation log  
+- **UniBase** — Agent memory  
+- **Local AI Node (Ollama / NUC / Edge device)**  
+- **React / Typescript**  
+- **IPFS** for documentation  
+
+---
+
+## 🎥 10. Demo Video
+`demo.mp4` — submitted separately  
+Produced using Nana Banana → Luma → Manus AI compositing.
+
+---
+
+## 👥 11. Team
+- **Colin Porter (BitColin)** — Founder, Architect  
+- **Manus** — Visuals, Compositing, Story  
+- Aigent.Farm community contributors
+
+---
+
+## ✨ 12. Mission
+**Aigent.Farm exists to protect farmland forever using transparent, safe, regenerative tokenisation.**  
+We believe the future of agriculture isn’t automated — **it’s augmented.**
+
+**Save Fields. Not Chase Yields.**
